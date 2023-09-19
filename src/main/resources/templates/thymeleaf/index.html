@@ -1,10 +1,36 @@
 <!DOCTYPE html>
+<!-- 타임리프를 사용하기 위한 태그 선언 -->
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+	<!--브라우저 제목은 {본인이름} 과제 01 로 변경해주세요.-->
+    <title>이민서 과제 01</title> 
 </head>
+
+<!-- 정적 파일인 index.js를 생성해서 index.html에 연결하세요. -->
+<script type="text/javascript" th:src="@{/js/index.js}"></script>
+
 <body>
     <h1 th:text="'Hello, OT'">직접 입력</h1>
+    
+<!--서버에서 전달받은 데이터 확인-->
+    <input type="hidden" th:value="${greeting}"/>
+    
+<!--버튼을 하나 생성해서 클릭시 “팝업을 생성합니다” 라는 문구의 alert 창을 생성하세요.-->
+    <button onclick="btn_alert('팝업을 생성합니다')">팝업창</button>
+    <!--
+	<script>
+		function btn_alert(str) {
+			alert(str);
+		}
+	</script>
+	-->
+    
+<!-- RestController 예제를 확인하기 위한 button 생성 -->
+    <button onclick="restExample()">RestController 예제</button>
+    
+
 </body>
 </html>
+
+
