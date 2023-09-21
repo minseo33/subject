@@ -1,11 +1,16 @@
 package com.intern.backend.backend.endpoint.spring.one.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
 
 @Getter
 @Entity
@@ -16,12 +21,12 @@ import javax.persistence.*;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
+    private Long id; //user id
 
     @Column(nullable = false, length = 30)
-    private String name;
+    private String name; //user name
 
     @Column(nullable = false)
-    private int age;
+    private int age; //user age
 
 }

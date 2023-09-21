@@ -1,10 +1,16 @@
 package com.intern.backend.backend.endpoint.spring.one;
 
-import com.intern.backend.backend.endpoint.spring.one.domain.User;
-import org.springframework.data.repository.query.Param;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
+
+
+import org.springframework.data.repository.query.Param;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.intern.backend.backend.endpoint.spring.one.domain.User;
 
 @RestController
 @RequestMapping("/test/user")
@@ -22,7 +28,7 @@ public class MyController {
      * 편의상 GET 사용 사용은 post 사용
      * @return
      */
-    @GetMapping
+    @GetMapping()
     public String saveUser(@Param("age") Integer age){
         if(age == null){
             age = 30;
@@ -35,8 +41,50 @@ public class MyController {
         return "생성에 성공했습니다.";
 
     }
+    
     @GetMapping("/list")
     public List<User> getUsers(){
         return myService.getUsers();
+    } //list 실행해보기
+    
+    /*
+     * 학생 등록 API
+     */
+    @GetMapping("/INSERT-STUDENT-INFO")
+    public String insertStudentInfo() {
+    	
+    	try {
+			myService.saveStudent(); //servie의 학생등록으로 넘어감
+		} catch (Exception e) {
+			return "생성에 실패했습니다."; //실행중 error 발생 시 return
+		}
+    	
+    	return "생성에 성공했습니다. test"; //실행 성공시 return
+    	
     }
+    
+    /*
+     * 취미 등록 API
+     */
+    @GetMapping("/INSERT-HOBBY-INFO")
+    public String insertHobbyInfo() {
+    	
+    	try {
+			myService.savehobby(); //servie의 취미등록으로 넘어감
+		} catch (Exception e) {
+			return "생성에 실패했습니다.";
+		}
+    	
+    	return "생성에 성공했습니다. test";
+    	
+    }
+    
+    
 }
+
+/* @Param
+	다수의 변수를 전달할 때는 전달되는 변수들에 @Param 어노테이션을 붙여주어 각 변수를 구분할 때 사용
+	다수의 변수를 전달할때는 반드시 써주는게 좋음
+	** 원하는 명으로 mapper에서 사용 가능 #{age}
+*/
+

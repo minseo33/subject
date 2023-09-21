@@ -41,3 +41,8 @@ spring:
 logging:
   level:
     org.hibernate.type: trace
+    
+# MyBatis
+# mapper.xml 위치 지정
+mybatis.mapper-locations: mybatis-mapper/**/*.xml
+    

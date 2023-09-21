@@ -1,22 +1,32 @@
 package com.intern.backend.backend.endpoint.spring.one;
 
-import com.intern.backend.backend.endpoint.spring.one.domain.User;
-import com.intern.backend.backend.endpoint.spring.one.domain.repository.UserRepository;
+import java.util.List;
+import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-import java.util.List;
+import com.intern.backend.backend.endpoint.spring.one.domain.Hobby;
+import com.intern.backend.backend.endpoint.spring.one.domain.Student;
+import com.intern.backend.backend.endpoint.spring.one.domain.User;
+import com.intern.backend.backend.endpoint.spring.one.domain.repository.HobbyRepository;
+import com.intern.backend.backend.endpoint.spring.one.domain.repository.StudentRepository;
+import com.intern.backend.backend.endpoint.spring.one.domain.repository.UserRepository;
 
 // [특징-1] 빈 사용
 @Service
 public class MyService {
     private final MyBean myBean;
+    
     private final UserRepository userRepository;
-
-    public MyService(MyBean myBean, UserRepository userRepository) {
+    private final StudentRepository studentRepository;
+    private final HobbyRepository hobbyRepository; //선언 왜 해줌?
+// 도구를 만들었는데 final을 선언하지 않으면 변경될수 있음 -> 필드주입
+    public MyService(MyBean myBean, UserRepository userRepository, StudentRepository studentRepository, HobbyRepository hobbyRepository) {
         this.myBean = myBean;
         this.userRepository = userRepository;
+		this.studentRepository = studentRepository;
+		this.hobbyRepository = hobbyRepository;
     }
+    // 사용하기 위해 재정의 / 더 공부 
 
     /**
      * my bean 에 있는 프린트 기능을 사용하기 위해 주입 받은 MyBean 을 사용할 수 있다.
@@ -36,12 +46,98 @@ public class MyService {
                 .name("tester").age(20).build();
         userRepository.save(user);
 
+        // 두 번 실행되서 데이터 2개씩 저장
+        
         user = User.builder()
                 .name("tester2").age(age).build();
         if(user.getAge() == 24){
             throw new Exception("error");
         }
         userRepository.save(user);
+    }
+    
+    /*
+     * 학생 등록
+     */
+    @Transactional(rollbackOn = Exception.class)//롤백?
+    //괄호안에명시는 모름 / 근데 트랜잭션을 실행하면 {}안에 있는
+    //데이터가 쌒이며 save만나면 저장
+    //근데 다른 테이블 데이터 오류나면 취소를 위한 rollback
+    public void saveStudent() throws Exception {
+    	Student student = Student.builder()
+    							//.name(null) 널 허용 안한다했기 때문
+    							.name("이민서1")
+    							.age(25)
+    							.build();
+    	studentRepository.save(student); 
+
+    	student = Student.builder()
+				//.name(null) 널 허용 안한다했기 때문
+				.name("이민서2")
+				.age(25)
+				.build();
+    	studentRepository.save(student); 
+
+    	student = Student.builder()
+				//.name(null) 널 허용 안한다했기 때문
+				.name("이민서3")
+				.age(25)
+				.build();
+    	studentRepository.save(student); 
+
+    	student = Student.builder()
+				//.name(null) 널 허용 안한다했기 때문
+				.name("이민서4")
+				.age(25)
+				.build();
+    	
+    	studentRepository.save(student); 
+    	//위의 student 객체를 전달받아 db 저장
+    	
+    	//다른 테이블에 데이터를 넣는 로직구현
+    }
+    
+    /*
+     * 취미 등록
+     */
+    @Transactional(rollbackOn = Exception.class)
+    public void savehobby() throws Exception {
+    	Hobby hobby = Hobby.builder()
+    							.name("축구")
+    							.build();
+    	hobbyRepository.save(hobby);
+
+    	
+    	hobby = Hobby.builder()
+				.name("수영")
+				.build();
+    	hobbyRepository.save(hobby);
+
+    	hobby = Hobby.builder()
+				.name("농구")
+				.build();
+    	hobbyRepository.save(hobby);
+
+    	hobby = Hobby.builder()
+				.name("야구")
+				.build();
+    	hobbyRepository.save(hobby);
+
+    	hobby = Hobby.builder()
+				.name("드로잉")
+				.build();
+    	hobbyRepository.save(hobby);
+
+    	hobby = Hobby.builder()
+				.name("알바")
+				.build();
+    	hobbyRepository.save(hobby);
+
+    	hobby = Hobby.builder()
+				.name("카페")
+				.build();
+    	
+    	hobbyRepository.save(hobby);
     }
 
     /**
@@ -62,3 +158,11 @@ public class MyService {
     }
     */
 }
+
+/* @Transactional
+ * 클래스, 메소드에 @Transactional이 선언되면 해당 클래스에 트랜잭션이 적용된 프록시 객체 생성
+ * 프록시 객체는 @Transactional이 포함된 메서드가 호출될 경우, 트랜잭션을 시작하고 Commit or Rollback을 수행
+ * CheckedException or 예외가 없을 때는 Commit
+ * UncheckedException이 발생하면 Rollback
+ * 
+ */

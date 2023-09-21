@@ -31,10 +31,15 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
+	implementation 'org.projectlombok:lombok' //lombok.jar
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'com.h2database:h2'
+    
+    // MyBatis 라이브러리 의존성 추가
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.0'
+    runtimeOnly 'mysql:mysql-connector-java:8.0.25'
 }
 
 tasks.named('test') {
