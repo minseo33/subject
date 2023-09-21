@@ -33,7 +33,7 @@ public class MyService {
     @Transactional(rollbackOn = Exception.class)
     public void saveUser(Integer age) throws Exception {
         User user = User.builder()
-                .name("tester").age(20).build();
+                		.name("tester").age(20).build();
         userRepository.save(user);
 
         user = User.builder()
