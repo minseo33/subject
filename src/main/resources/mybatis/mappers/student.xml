@@ -20,6 +20,15 @@
         SELECT a.name, a.age, b.name AS hobby_name
         FROM tb_student AS a
         LEFT JOIN tb_hobby AS b ON a.seq = b.student_seq
+        <where>
+            <if test="name != null and name != ''">
+                AND a.name = #{name}
+            </if>
+            <if test="hobby != null and hobby != ''">
+                AND b.name = #{hobby}
+            </if>
+
+        </where>
     </select>
 </mapper>
 

@@ -21,7 +21,7 @@ public class StudentDTO {
     @Setter
     public static class SearchReq {
         private String name; // 학생명
-        private Integer age; // 나이
+        private String hobby; // 취미
     }
 
     @Getter

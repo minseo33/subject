@@ -20,3 +20,6 @@ INSERT INTO tb_student(name, age) VALUES('학생4', 20);
 INSERT INTO tb_hobby(student_seq, name)VALUES(1, '축구');
 INSERT INTO tb_hobby(student_seq, name)VALUES(1, '야구');
 INSERT INTO tb_hobby(student_seq, name)VALUES(1, '농구');
+
+INSERT INTO tb_hobby(student_seq, name)VALUES(2, '축구');
+INSERT INTO tb_hobby(student_seq, name)VALUES(2, '농구');
