@@ -1,0 +1,22 @@
+CREATE TABLE tb_student (
+    seq INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(40) NOT NULL,
+    age INT NOT NULL
+);
+
+CREATE TABLE tb_hobby (
+  seq INT AUTO_INCREMENT PRIMARY KEY,
+  student_seq INT,
+  name VARCHAR(50),
+  FOREIGN KEY (student_seq) REFERENCES tb_student (seq)
+);
+
+INSERT INTO tb_student(name, age) VALUES('학생1', 20);
+INSERT INTO tb_student(name, age) VALUES('학생2', 20);
+INSERT INTO tb_student(name, age) VALUES('학생3', 20);
+INSERT INTO tb_student(name, age) VALUES('학생4', 20);
+
+
+INSERT INTO tb_hobby(student_seq, name)VALUES(1, '축구');
+INSERT INTO tb_hobby(student_seq, name)VALUES(1, '야구');
+INSERT INTO tb_hobby(student_seq, name)VALUES(1, '농구');

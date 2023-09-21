@@ -26,7 +26,7 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
-      ddl-auto: create        # DB 초기화 전략 (none, create, create-drop, update, validate)
+      ddl-auto: update        # DB 초기화 전략 (none, create, create-drop, update, validate)
 #     none 	테이블 생성 전략을 사용하지 않습니다. 보통 운영 환경에서는 해당 옵션이 권장됩니다.
 #     create 	기존 테이블을 삭제한 후 테이블을 재생성합니다.
 #     create-drop 	기존 테이블을 삭제한 후 테이블을 재생성하고, 애플리케이션 종료 시점에 테이블을 삭제합니다.
@@ -41,3 +41,7 @@ spring:
 logging:
   level:
     org.hibernate.type: trace
+
+mybatis:
+  config-location: classpath:mybatis/config/mybatis-config.xml
+  mapper-locations: classpath:mybatis/mappers/*.xml

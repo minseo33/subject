@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- student mapper -->
+
+<mapper namespace="com.intern.backend.backend.endpoint.api.student.domain.repository.StudentMapper">
+
+    <resultMap id="studentResult" type="com.intern.backend.backend.endpoint.api.student.endpoint.support.StudentDTO$SearchRes">
+        <result property="name" column="name" />
+        <result property="age" column="age" />
+        <!-- One-to-Many 관계 매핑 -->
+        <collection property="hobby" ofType="string">
+            <result property="hb" column="hobby_name" />
+        </collection>
+    </resultMap>
+
+
+    <!--학생 조회-->
+    <select id="selectStudents" parameterType="com.intern.backend.backend.endpoint.api.student.endpoint.support.StudentDTO$SearchReq"
+            resultMap = "studentResult">
+        SELECT a.name, a.age, b.name AS hobby_name
+        FROM tb_student AS a
+        LEFT JOIN tb_hobby AS b ON a.seq = b.student_seq
+    </select>
+</mapper>
+
+
+
+
+
+
