@@ -60,57 +60,47 @@ public class MyService {
      * 학생 등록
      */
     @Transactional(rollbackOn = Exception.class)//롤백?
-    //괄호안에명시는 모름 / 근데 트랜잭션을 실행하면 {}안에 있는
+    //괄호안에명시는 그냥 자체인듯. / 근데 트랜잭션을 실행하면 {}안에 있는
     //데이터가 쌒이며 save만나면 저장
     //근데 다른 테이블 데이터 오류나면 취소를 위한 rollback
-    public void saveStudent() throws Exception {
+    public void saveStudent() throws Exception { //Controller에서 타고옴
     	Student student = Student.builder()
     							//.name(null) 널 허용 안한다했기 때문
     							.name("이민서1")
     							.age(25)
-    							.build();
-    	studentRepository.save(student); 
+    							.build(); 
+    	studentRepository.save(student); //위의 student 객체를 전달받아 db 저장
 
     	student = Student.builder()
-				//.name(null) 널 허용 안한다했기 때문
 				.name("이민서2")
 				.age(25)
 				.build();
     	studentRepository.save(student); 
 
     	student = Student.builder()
-				//.name(null) 널 허용 안한다했기 때문
 				.name("이민서3")
 				.age(25)
 				.build();
     	studentRepository.save(student); 
-
+/*
     	student = Student.builder()
-				//.name(null) 널 허용 안한다했기 때문
-				.name("이민서4")
+				.name("null")
 				.age(25)
 				.build();
+		studentRepository.save(student);
+*/
     	
-    	studentRepository.save(student); 
-    	//위의 student 객체를 전달받아 db 저장
-    	
-    	//다른 테이블에 데이터를 넣는 로직구현
+    	// 다른 테이블에 데이터를 넣는 로직구현
     }
     
     /*
      * 취미 등록
      */
     @Transactional(rollbackOn = Exception.class)
-    public void savehobby() throws Exception {
+    public void savehobby() throws Exception { //Controller에서 타고옴
     	Hobby hobby = Hobby.builder()
-    							.name("축구")
-    							.build();
-    	hobbyRepository.save(hobby);
-
-    	
-    	hobby = Hobby.builder()
-				.name("수영")
-				.build();
+    					   .name("축구")
+    					   .build();
     	hobbyRepository.save(hobby);
 
     	hobby = Hobby.builder()
@@ -123,21 +113,6 @@ public class MyService {
 				.build();
     	hobbyRepository.save(hobby);
 
-    	hobby = Hobby.builder()
-				.name("드로잉")
-				.build();
-    	hobbyRepository.save(hobby);
-
-    	hobby = Hobby.builder()
-				.name("알바")
-				.build();
-    	hobbyRepository.save(hobby);
-
-    	hobby = Hobby.builder()
-				.name("카페")
-				.build();
-    	
-    	hobbyRepository.save(hobby);
     }
 
     /**
@@ -164,5 +139,5 @@ public class MyService {
  * 프록시 객체는 @Transactional이 포함된 메서드가 호출될 경우, 트랜잭션을 시작하고 Commit or Rollback을 수행
  * CheckedException or 예외가 없을 때는 Commit
  * UncheckedException이 발생하면 Rollback
- * 
+ *
  */

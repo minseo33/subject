@@ -2,6 +2,7 @@ package com.intern.backend.backend.endpoint.spring.one;
 
 import java.util.List;
 
+import javax.persistence.ManyToOne;
 
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
@@ -54,12 +55,12 @@ public class MyController {
     public String insertStudentInfo() {
     	
     	try {
-			myService.saveStudent(); //servie의 학생등록으로 넘어감
-		} catch (Exception e) {
-			return "생성에 실패했습니다."; //실행중 error 발생 시 return
+			myService.saveStudent(); // service의 학생등록으로 넘어감
+		} catch (Exception e) { 
+			return "생성에 실패했습니다."; // 실행중 error 발생 시 return
 		}
     	
-    	return "생성에 성공했습니다. test"; //실행 성공시 return
+    	return "생성에 성공했습니다."; // 실행 성공시 return
     	
     }
     
@@ -75,10 +76,9 @@ public class MyController {
 			return "생성에 실패했습니다.";
 		}
     	
-    	return "생성에 성공했습니다. test";
+    	return "생성에 성공했습니다.";
     	
     }
-    
     
 }
 
