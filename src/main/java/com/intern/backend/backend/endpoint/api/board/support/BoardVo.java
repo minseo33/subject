@@ -1,9 +1,9 @@
 package com.intern.backend.backend.endpoint.api.board.support;
 
 import lombok.Getter;
-
 import java.util.Date;
 
+//게시판 모델 정의
 @Getter
 public class BoardVo {
     private String subject; // 제목

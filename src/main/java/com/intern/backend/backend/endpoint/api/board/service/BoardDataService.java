@@ -26,4 +26,5 @@ public class BoardDataService {
         // data 에 대한 비지니스 로직을 추가하셔도 됩니다.
         return boardData;
     }
+   
 }

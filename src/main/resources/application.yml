@@ -33,6 +33,7 @@ spring:
 #     update 	기존 테이블 구조는 유지하고, 새로 추가된 컬럼(멤버)만 테이블에 반영합니다. 기존 컬럼(멤버)은 속성이 변경되더라도 테이블에 반영되지 않습니다.
 #     validate 	DDL 쿼리를 실행하지 않고, 온전히 엔티티와 테이블이 정상적으로 매핑되었는지만 확인합니다. none과 마찬가지로 운영 환경에서 권장되는 옵션입니다.
     properties:
+    
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
         format_sql: true      # 쿼리 로그 포맷 (정렬)
@@ -41,3 +42,8 @@ spring:
 logging:
   level:
     org.hibernate.type: trace
+    
+    spring:
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
