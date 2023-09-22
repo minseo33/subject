@@ -13,24 +13,30 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+//@Setter
 @Entity 
 @Builder
 @NoArgsConstructor
 @Table(name = "tb_hobby") //"tb_hobby" 테이블과 매핑
 @AllArgsConstructor
-
+ 
 public class Hobby {
    
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
-   private Long student_seq; //학생 시퀀스 
+   private Long hobby_seq; // - pk
   // 학생시퀀스를 키 값으로 하면 referenceddCol~~자동 키값이랑 pk충돌 일어날텐데..
   // 그럼 어노테이션도 쓸 필요가 없나? referencedCol 더더더ㅓㄷ더ㅓ
    
    @Column(length = 50, unique = true) // 컬럼 길이 50, 중복 허용
-   private String name; //취미
+   private String name; //취미 
+   
+   @ManyToOne
+   @JoinColumn(name = "student_seq") //fk설정 //referencedColumnName사용은 좋지 않음
+   private Student student;
    
    /*
    @ManyToOne // 한 명의 학생이 여러 개의 취미를 가질 수 있습니다.
@@ -53,6 +59,8 @@ public class Hobby {
    // ---->but. 새로고침하면 성공/실패/실패/실패 결과...새로고침./................!!!!
    // 첫 로직을 타다가 실패가 뜨는거면 exception....
    // h2에 db는 잘 넣어짐....
+   
+   // ㄴ당연하지,,,,,,,Hobby unique 중복설정 해놨으니 새로고침시 실패창이지.....
    
    
    

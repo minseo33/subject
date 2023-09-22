@@ -1,12 +1,17 @@
 package com.intern.backend.backend.endpoint.spring.one.domain;
 
+import java.util.ArrayList;
 import java.util.List; //list사용
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -36,7 +41,12 @@ public class Student {
   @Column(nullable = false) // null 허용 X
   private int age; //나이
   
-  }
+  @OneToMany(mappedBy = "student") //
+  private List<Hobby> hobbies = new ArrayList<>();
+  
+}
+
+
  
 
 /* 스프링부트에서는 Entity들을 domain 패키지에 생성한다 */

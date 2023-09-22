@@ -1,5 +1,6 @@
 package com.intern.backend.backend.endpoint.spring.one;
 
+import java.util.Iterator;
 import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -70,18 +71,7 @@ public class MyService {
     							.age(25)
     							.build(); 
     	studentRepository.save(student); //위의 student 객체를 전달받아 db 저장
-
-    	student = Student.builder()
-				.name("이민서2")
-				.age(25)
-				.build();
-    	studentRepository.save(student); 
-
-    	student = Student.builder()
-				.name("이민서3")
-				.age(25)
-				.build();
-    	studentRepository.save(student); 
+    	
 /*
     	student = Student.builder()
 				.name("null")
@@ -103,17 +93,111 @@ public class MyService {
     					   .build();
     	hobbyRepository.save(hobby);
 
-    	hobby = Hobby.builder()
-				.name("농구")
-				.build();
-    	hobbyRepository.save(hobby);
+//    	hobby = Hobby.builder()
+//				.name("농구")
+//				.build();
+//    	hobbyRepository.save(hobby); 
+    	
+    	// 이 둘이 사실 같은 기능인가?
+//    	hobby.setName("농구");
+//    	hobbyRepository.save(hobby);
 
     	hobby = Hobby.builder()
 				.name("야구")
 				.build();
     	hobbyRepository.save(hobby);
+    	
+    	
+    	
+    	hobby = Hobby.builder()
+				.name("발야구")
+				.build();
+    	hobbyRepository.save(hobby);
+    	
+    	hobby = Hobby.builder()
+				.name("볼링")
+				.build();
+    	hobbyRepository.save(hobby);
+    	
+    	hobby = Hobby.builder()
+				.name("탁구")
+				.build();
+    	hobbyRepository.save(hobby);
+    	
+    	
+    	
+    	
+    	hobby = Hobby.builder()
+				.name("사구")
+				.build();
+    	hobbyRepository.save(hobby);
+    	
+    	hobby = Hobby.builder()
+				.name("삼구")
+				.build();
+    	hobbyRepository.save(hobby);
+    	
+    	hobby = Hobby.builder()
+				.name("호구")
+				.build();
+    	hobbyRepository.save(hobby);
+    	
+    	
 
     }
+    
+    //test
+    public void test() {
+    	Student student = Student.builder()
+    			.name("이민서")
+    			.age(25)
+    			.build();
+//빌더 패턴을 이용한 
+    	//학생저장
+    	studentRepository.save(student);//db담음 //등록
+    	
+    	
+    	//취미저장
+    	for (int i = 1; i < 4; i++) { //1부터 3까지 고정값 취미
+    		Hobby hobby = Hobby.builder()
+    				.student(student)
+    				.name("야구"+i) //취미명 unique로 설정되어있어서 
+    				.build();
+			hobbyRepository.save(hobby);
+		}
+    }
+    
+    //test
+    public void test1() {
+    	Student student = Student.builder().name("이민서1").age(25).build();
+
+    	//학생저장
+    	studentRepository.save(student);
+    	
+    	
+    	//취미저장
+    	for (int i = 1; i < 4; i++) {
+    		Hobby hobby = Hobby.builder().student(student).name("축구"+i).build();
+			hobbyRepository.save(hobby);
+		}
+    }
+    
+    //test
+    public void test2() {
+    	Student student = Student.builder().name("이민서2").age(25).build();
+
+    	//학생저장
+    	studentRepository.save(student);
+    	
+    	
+    	//취미저장
+    	for (int i = 1; i < 4; i++) {
+    		Hobby hobby = Hobby.builder().student(student).name("농구"+i).build();
+			hobbyRepository.save(hobby);
+		}
+    }
+    
+    //일단 학생당 여러 취미 출력..
 
     /**
      * 사용자 조회

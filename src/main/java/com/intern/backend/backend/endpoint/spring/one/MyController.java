@@ -1,5 +1,6 @@
 package com.intern.backend.backend.endpoint.spring.one;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.ManyToOne;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.intern.backend.backend.endpoint.spring.one.domain.Hobby;
+import com.intern.backend.backend.endpoint.spring.one.domain.Student;
 import com.intern.backend.backend.endpoint.spring.one.domain.User;
 
 @RestController
@@ -59,7 +62,6 @@ public class MyController {
 		} catch (Exception e) { 
 			return "생성에 실패했습니다."; // 실행중 error 발생 시 return
 		}
-    	
     	return "생성에 성공했습니다."; // 실행 성공시 return
     	
     }
@@ -80,6 +82,24 @@ public class MyController {
     	
     }
     
+    // 3번문제
+    
+    //test용으로 호출
+    @GetMapping("/test")
+    public void create() {
+    	myService.test();
+    }
+    
+    @GetMapping("/test1")
+    public void create1() {
+    	myService.test1();
+    }
+    
+    @GetMapping("/test2")
+    public void create2() {
+    	myService.test2();
+    }
+    
 }
 
 /* @Param
@@ -87,4 +107,16 @@ public class MyController {
 	다수의 변수를 전달할때는 반드시 써주는게 좋음
 	** 원하는 명으로 mapper에서 사용 가능 #{age}
 */
+
+/*
+ * select 
+*	a.name as name, 
+*	b.name as hobby
+*	from 
+*	tb_student a 
+*	left outer join 
+*	tb_hobby b 
+*	on a.seq = b.student_seq;
+*/
+
 
