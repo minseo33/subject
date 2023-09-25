@@ -58,15 +58,17 @@
 	</style>
 	    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	    <script> 
-			$(document).ready(function () {
+			$(document).ready(function () { // 페이지 로딩 시 데이터 가져오기 !!!!
     // 서버에서 게시판 데이터를 가져오는 함수
+    // jQuery의 .get메소드 사용
     function fetchBoardData() {
         $.ajax({
-            url: '/api/board', // JSON 데이터를 가져올 url
-            type: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                var tableBody = $('#boardData');
+            url: '/api/board', // 서버의 URL 주소
+            type: 'GET', //http 요청 방식(GET, POST, PUT등)
+            dataType: 'json', //서버에서 보내줄 데이터 타입
+            success: function (data) { //서버로부터 정상적으로 응답이 왔을 때 실행 
+            //api/board를 요청했을때 받은 데이터가 (data)
+                var tableBody = $('#boardData'); //영역을 선택
                 console.log(data)
 
                 // JSON 데이터 반복
@@ -78,17 +80,17 @@
                         '<td>' + item.writer + '</td>' +
                         '<td>' + new Date(item.registerTime).toLocaleString() + '</td>' +
                         '</tr>';
-                    tableBody.append(row);
+                        
+                    tableBody.append(row); //만들어진 html코드를 선택된 영역에 추가
                 });
             },
-            //error: function () {
+            //error: function () { //서버로부터 응답이 정상적으로 처리되지 못했을 때 실행
                 //console.error('게시판 데이터를 가져오는 중 오류 발생.');
             //}오류처리......
         });
     }
 
-    // 페이지 로딩 시 데이터 가져오기
-    fetchBoardData();
+    fetchBoardData(); //페이지 열릴시 동작
     //alert("test"); //알림창은 잘 뜸
 
 
