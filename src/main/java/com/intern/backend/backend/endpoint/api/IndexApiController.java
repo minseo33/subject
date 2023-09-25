@@ -19,7 +19,7 @@ public class IndexApiController {
 	
     @GetMapping("/api/board") 
     public List<BoardVo> indexApi() {
-    	List<BoardVo> boardData = boardDataService.getBoardData();
+    	List<BoardVo> boardData = boardDataService.getBoardData(0, 0);
     	return boardData;
     }
     

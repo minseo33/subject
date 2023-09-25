@@ -1,11 +1,12 @@
 package com.intern.backend.backend.endpoint.api.board.service;
 
-import com.intern.backend.backend.endpoint.api.board.support.BoardVo;
-import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+
+import org.springframework.stereotype.Service;
+import com.intern.backend.backend.endpoint.api.board.support.BoardVo;
 
 @Service
 public class BoardDataService {
@@ -26,5 +27,14 @@ public class BoardDataService {
         // data 에 대한 비지니스 로직을 추가하셔도 됩니다.
         return boardData;
     }
-   
+    
+    public List<BoardVo> getBoardData(int page, int size) {
+        // 페이지에 따라 데이터를 가져옴
+        int startIndex = page * size;
+        int endIndex = Math.min(startIndex + size, boardData.size());
+        return boardData.subList(startIndex, endIndex);
+    }
+    
 }
+
+

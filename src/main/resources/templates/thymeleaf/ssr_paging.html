@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"> <!--hymeleaf 속성 사용-->
+
+<head>
+	<meta charset="UTF-8">
+	<style>
+		a {
+			text-decoration: none;
+		}
+
+		table {
+			border-collapse: collapse;
+			width: 1000px;
+			margin-top: 20px;
+			text-align: center;
+		}
+
+		td,
+		th {
+			border: 1px solid black;
+			height: 50px;
+		}
+
+		th {
+			font-size: 17px;
+		}
+
+		thead {
+			font-weight: 700;
+		}
+
+		.table_wrap {
+			margin: 50px 0 0 50px;
+		}
+
+		.top_btn {
+			font-size: 20px;
+			padding: 6px 12px;
+			background-color: #fff;
+			border: 1px solid #ddd;
+			font-weight: 600;
+		}
+
+		.pagination {
+			display: flex;
+			justify-content: center;
+			margin-top: 20px;
+		}
+
+		.pagination a {
+			margin: 0 50px;
+		}
+
+		.pagination .active {
+			font-weight: bold;
+		}
+
+		.top_btn {
+			font-size: 20px;
+			padding: 6px 12px;
+			background-color: #0000ff;
+			border: 1px solid #ddd;
+			/* 버튼에 1px 두께의 실선 테두리 추가 */
+			font-weight: 600;
+			text-decoration: none;
+			/* 기본 텍스트 밑줄 제거 */
+			display: inline-block;
+			/* 텍스트 주변으로 테두리를 감싸기 위해 inline-block 설정 */
+		}
+
+		.top_btn:hover {
+			background-color: #ddd;
+			/* 마우스를 올리면 배경색 변경 */
+		}
+	</style>
+</head>
+
+<body>
+	<h1 th:text="'게시판'">직접 입력</h1>
+	<div class="table_wrap">
+		<table>
+			<thead>
+				<tr>
+					<th>번호</th>
+					<th>제목</th>
+					<th>내용</th>
+					<th>작성자</th>
+					<th>작성일시</th>
+				</tr>
+			</thead>
+			<tbody>
+				<!-- 게시판 데이터 반복 -->
+				<tr th:each="datum, i: ${data}"> <!-- 리스트 반복하면서 각 데이터 행으로 생성 -->
+					<td th:text="${i.count}"></td> <!-- 반복 상태 변수 -->
+					<td th:text="${datum.subject}"></td>
+					<td th:text="${datum.contents}"></td>
+					<td th:text="${datum.writer}"></td>
+					<td th:text="${#dates.format(datum.registerTime, 'yyyy-MM-dd HH:mm')}"></td>
+				</tr>
+			</tbody>
+		</table>
+
+
+<!--페이지네이션 -->
+		<div class="pagination">
+			<span th:if="${data.size() > 0}"> </span>
+			 페이지 번호
+			 
+			<a th:href="@{/board/ssr?page=0}" th:class="${page == 0} ? 'active'">1</a>
+			<a th:href="@{/board/ssr?page=1}" th:class="${page == 1} ? 'active'">2</a>
+			<a th:href="@{/board/ssr?page=2}" th:class="${page == 2} ? 'active'">3</a>
+			<a th:href="@{/board/ssr?page=3}" th:class="${page == 3} ? 'active'">4</a>
+			<a th:href="@{/board/ssr?page=4}" th:class="${page == 4} ? 'active'">5</a>
+			
+<!--			<a th:href="@{/board/ssr?page=4}" th:class="${page == 5} ? 'active'">6</a>-->
+<!--			<a th:href="@{/board/ssr?page=4}" th:class="${page == 6} ? 'active'">7</a>-->
+<!--			<a th:href="@{/board/ssr?page=4}" th:class="${page == 7} ? 'active'">8</a>-->
+<!--			<a th:href="@{/board/ssr?page=4}" th:class="${page == 8} ? 'active'">9</a>-->
+<!--			<a th:href="@{/board/ssr?page=4}" th:class="${page == 9} ? 'active'">10</a>-->
+<!--			<a th:href="@{/board/ssr?page=4}" th:class="${page == 10} ? 'active'">11</a>-->
+<!--			<a th:href="@{/board/ssr?page=4}" th:class="${page == 11} ? 'active'">12</a>-->
+<!--			<a th:href="@{/board/ssr?page=4}" th:class="${page == 12} ? 'active'">13</a>-->
+<!--			<a th:href="@{/board/ssr?page=4}" th:class="${page == 13} ? 'active'">14</a>-->
+<!--			<a th:href="@{/board/ssr?page=4}" th:class="${page == 14} ? 'active'">15</a>-->
+		</div>
+		
+		
+	</div>
+
+	<!--<form action="#">-->
+	<form>
+		<label for="lang">페이지당노출수</label>
+		<select name="languages" id="lang">
+			<option value="10">10</option>
+			<option value="20">20</option>
+			<option value="30">30</option>
+		</select>
+	</form>
+
+</body>
+
+</html>
