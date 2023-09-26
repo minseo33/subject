@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.intern.backend.backend.endpoint.api.board.service.BoardDataService;
 import com.intern.backend.backend.endpoint.api.board.support.BoardVo;
+import com.intern.backend.backend.endpoint.api.board.support.Pagination;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,57 +21,46 @@ import lombok.RequiredArgsConstructor;
 public class BoardController {
 
 	private final BoardDataService boardDataService;
-	
-	//dataThy 메서드는 페이지와 페이지 크기를 매개변수로 받아와 해당 페이지의 데이터를 가져와 모델에 추가한 다음 
-	//Thymeleaf 템플릿을 통해 클라이언트에 표시(?)
-	@GetMapping("/ssr")
-    public String dataThy(Model model,
-                          @RequestParam(defaultValue = "0") int page,     
-                          @RequestParam(defaultValue = "10") int size) {   //페이지당 데이터 크기 제한
-        List<BoardVo> boardData = boardDataService.getBoardData(page, size); // 현재 페이지의 데이터 가져오기(List)
-        model.addAttribute("data", boardData); //model에 현재 페이지의 데이터 추가
-        model.addAttribute("page", page); // 현재 페이지 번호를 모델에 추가
-//        model.addAttribute("pageNumbers", pageNumbers); // 페이지 번호 리스트
-//        model.addAttribute("totalPages", totalPages); // 전체 페이지 수
-        return "ssr_paging"; // ssr_paging.html 템플릿 파일로 이동
-    }	
+
+	@GetMapping("/ssr") //메서드에 매개변수를 Model타입의 model변수 선언
+	public String ssr(Model model, @RequestParam(defaultValue = "1") int page, //페이지 데이터
+									@RequestParam(defaultValue = "10") int pageSize) { //페이지당 데이터 크기 제한
+
+		//총 게시물 수를 구하는 로직을 생성
+		int totalListCnt = boardDataService.findAllCount();
+
+		// Pagination 클래스 -> 해당 클래스의 생성자에 총 게시물 수와 현재 페이지, 게시글 최대 개수를 전달하는 로직 생성
+		Pagination pagination = new Pagination(totalListCnt, page, pageSize);
+
+		int startIndex = pagination.getStartIndex(); //0으로 들어옴
+
+		// 리스트 가져오기(List) //얼만큼의 게시물 가져올지 설정
+		// 1부터 10번째까지 뽑아낸다 //0값, 10값 //리스트는 0부터 시작 -> 게시물 1번
+		List<BoardVo> list = boardDataService.getRangeBoardData(startIndex, pageSize);
+
+		//model로 html쪽에 데이터 전달
+		model.addAttribute("data", list); //model에 addAttribute담고, html쪽에 전달
+		model.addAttribute("pagination", pagination);
+		model.addAttribute("pageSize", pageSize);
+
+		//model이 담은 데이터를 html파일에 전송
+
+		return "ssr_paging";//동작을 다 한 ssr_paging을 브라우저에게 던진다
+	}
+
+	@GetMapping("/csr")
+	public String csr() {
+		return "csr_paging"; //브라우저에게 csr_paging.html을 줌
+	}
+
 }
 
-//	// 타임리프 //SSR
-//	@GetMapping("/tyhmeleaf")
-//	public String dataThy(Model model) {
-//		// "/board/tyhmeleaf" 경로로 GET 요청이 발생했을 때 호출
-//		// Model 객체를 사용하여 Thymeleaf 템플릿에 데이터를 전달
-//		List<BoardVo> boardData = boardDataService.getBoardData();
-//		model.addAttribute("data", boardData); // "datum"라는 이름으로 모델에 데이터 추가
-//		// index.html에 boardData값을 보내서 html에 있는 for문까지
-//		// 다 서버측에서 만들어준 다음에 완성된 html코드를
-//		return "tyhmeleaf"; // tyhmeleaf.html 템플릿 파일로 이동 //index 브라우저에게 전달
-//	}
-//
-//	// 웹 브라우저 //CSR
-//	@GetMapping("/web")
-//	public String dataWeb() {
-////		List<BoardVo> boardData = boardDataService.getBoardData();
-////		modell.addAttribute("data", boardData);
-//		return "web"; // web.html 템플릿 파일로 이동
-//	}
+// Spring Model -> Model 객체는 컨트롤러에서 데이터를 생성해 이를 View에 전달하는 역할(view로 전달할 때 사용하는 객체)
 
-/*
- * 클라이언트 사이드(Client-Side) -> 완성된 html 코드를 브라우저에게 준다. -> 페이지소스 봤을 때, <tr>
- * <!--리스트반복하면서 각 데이터 행으로 생성 --> <td>1</td> <!--반복 상태변수--> <td>제목1</td>
- * <td>내용1</td> <td>작성자1</td> <td>2023-09-25 10:23</td>
- * 
- * <tr> <!--리스트반복하면서 각 데이터 행으로 생성 --> <td>2</td> <!--반복 상태변수--> <td>제목2</td>
- * <td>내용2</td> <td>작성자2</td> <td>2023-09-25 10:23</td>
- * 
- * <tr> <!--리스트반복하면서 각 데이터 행으로 생성 --> <td>3</td> <!--반복 상태변수--> <td>제목3</td>
- * <td>내용3</td> <td>작성자3</td> <td>2023-09-25 10:23</td>
- * 
- * 이런 식으로 150개 모두 출력됨.
- */
-
-/*
- * 서버 사이드(Server-Side) -> 브라우저가 html만 받고 따로 데이터를 받아서(ajax사용), 브라우저가 완성된 html 코드를
- * 만든다. -> 실질적으로 페이지소스 봤을때 찍으면 데이터 하나씩 추가됨
- */
+//// @RequestParam(value="파라미터 이름", defaultValue = "기본값") 데이터타입 변수명
+//	-> 이 컨트롤러에게 전달되는 파라미터를 수신한다. -> 파라미터를 받아서 변수에 넣어주는~
+//	-> 값이 없을 경우에 대한 기본값 설정이 가능하며, 기본값의 명시는 생략 가능
+//	-> 파라미터 처리와 함께 데이터타입과 변수명이 함께 명시됨(파라미터를 사용하지 않을 경우 생략 가능)
+//	-> @RequestParam(required=true, false) : true가 기본값, false인 경우 값을 입력하지 않으면 null이 들어감
+//	-> @RequestParam(defaultValue = " ") : 요청파라미터로 null이 아닌 아무 값도 넘어오지 않았을 때와 빈문자인 경우에 들어갈 기본값
+//	-> defaultValue가 설정되어 있는 경우 required=false 설정은 의미가 없음(기본값이 항상 들어가기때문에) -> 1로 설정되어 있어 기본값이 들어간다

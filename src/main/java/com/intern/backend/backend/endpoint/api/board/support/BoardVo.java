@@ -1,7 +1,8 @@
 package com.intern.backend.backend.endpoint.api.board.support;
 
-import lombok.Getter;
 import java.util.Date;
+
+import lombok.Getter;
 
 //게시판 모델 정의
 @Getter

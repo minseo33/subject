@@ -1,11 +1,13 @@
 package com.intern.backend.backend.endpoint.spring.one;
 
-import com.intern.backend.backend.endpoint.spring.one.domain.User;
-import com.intern.backend.backend.endpoint.spring.one.domain.repository.UserRepository;
-import org.springframework.stereotype.Service;
+import java.util.List;
 
 import javax.transaction.Transactional;
-import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.intern.backend.backend.endpoint.spring.one.domain.User;
+import com.intern.backend.backend.endpoint.spring.one.domain.repository.UserRepository;
 
 // [특징-1] 빈 사용
 @Service

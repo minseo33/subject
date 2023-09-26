@@ -3,6 +3,7 @@
 
 <head>
 	<meta charset="UTF-8">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 	<style>
 		a {
 			text-decoration: none;
@@ -73,6 +74,14 @@
 			/* 마우스를 올리면 배경색 변경 */
 		}
 	</style>
+	<script>
+		function chgPageSize() { //onchange 실행
+			var data = document.getElementById("pageSize").value; //페이지당 보여지는 게시글 최대 개수
+			//document의 id가 pazesize라는 id값을 가진 요소의 value값을 data 변수에 담음
+			location.href="/board/ssr?pageSize="+data; //pageSize + 받은 변수
+			//실질적인 url호출
+		}
+	</script>
 </head>
 
 <body>
@@ -91,52 +100,74 @@
 			<tbody>
 				<!-- 게시판 데이터 반복 -->
 				<tr th:each="datum, i: ${data}"> <!-- 리스트 반복하면서 각 데이터 행으로 생성 -->
-					<td th:text="${i.count}"></td> <!-- 반복 상태 변수 -->
-					<td th:text="${datum.subject}"></td>
-					<td th:text="${datum.contents}"></td>
-					<td th:text="${datum.writer}"></td>
-					<td th:text="${#dates.format(datum.registerTime, 'yyyy-MM-dd HH:mm')}"></td>
+					<td th:text="${i.count}"></td> <!-- 반복 상태 변수 --> <!--번호-->
+					<td th:text="${datum.subject}"></td> <!--제목-->
+					<td th:text="${datum.contents}"></td> <!--내용-->
+					<td th:text="${datum.writer}"></td> <!--작성자-->
+					<td th:text="${#dates.format(datum.registerTime, 'yyyy-MM-dd HH:mm')}"></td> <!--작성일시-->
 				</tr>
 			</tbody>
 		</table>
 
 
-<!--페이지네이션 -->
-		<div class="pagination">
-			<span th:if="${data.size() > 0}"> </span>
-			 페이지 번호
-			 
-			<a th:href="@{/board/ssr?page=0}" th:class="${page == 0} ? 'active'">1</a>
-			<a th:href="@{/board/ssr?page=1}" th:class="${page == 1} ? 'active'">2</a>
-			<a th:href="@{/board/ssr?page=2}" th:class="${page == 2} ? 'active'">3</a>
-			<a th:href="@{/board/ssr?page=3}" th:class="${page == 3} ? 'active'">4</a>
-			<a th:href="@{/board/ssr?page=4}" th:class="${page == 4} ? 'active'">5</a>
-			
-<!--			<a th:href="@{/board/ssr?page=4}" th:class="${page == 5} ? 'active'">6</a>-->
-<!--			<a th:href="@{/board/ssr?page=4}" th:class="${page == 6} ? 'active'">7</a>-->
-<!--			<a th:href="@{/board/ssr?page=4}" th:class="${page == 7} ? 'active'">8</a>-->
-<!--			<a th:href="@{/board/ssr?page=4}" th:class="${page == 8} ? 'active'">9</a>-->
-<!--			<a th:href="@{/board/ssr?page=4}" th:class="${page == 9} ? 'active'">10</a>-->
-<!--			<a th:href="@{/board/ssr?page=4}" th:class="${page == 10} ? 'active'">11</a>-->
-<!--			<a th:href="@{/board/ssr?page=4}" th:class="${page == 11} ? 'active'">12</a>-->
-<!--			<a th:href="@{/board/ssr?page=4}" th:class="${page == 12} ? 'active'">13</a>-->
-<!--			<a th:href="@{/board/ssr?page=4}" th:class="${page == 13} ? 'active'">14</a>-->
-<!--			<a th:href="@{/board/ssr?page=4}" th:class="${page == 14} ? 'active'">15</a>-->
-		</div>
-		
-		
+		 <!--페이지네이션--> <!--pageSize=${pageSize}는 Controller의 pageSize와 매칭-->
+		<nav aria-label="Page navigation example ">
+		  <ul class="pagination">
+			  
+		  <li class="page-item">
+		      <a class="page-link" th:href="@{/board/ssr?page=1}" aria-label="Previous"> <!-- 1페이지로 지정 -->
+		        <span aria-hidden="true">처음</span>
+		      </a>
+		    </li>
+		    
+		    <li class="page-item">
+		      <a class="page-link" th:href="@{/board/ssr(page=${pagination.prevBlock}, pageSize=${pageSize})}" aria-label="Previous"> <!--prevBlock은 이전 블럭의 마지막 페이지 -->
+		        <span aria-hidden="true">이전</span>
+		      </a>
+		    </li>
+		    
+		    <th:block  th:with="start = ${pagination.startPage}, end = ${pagination.endPage}"> 
+			    <li class="page-item" 
+			    		 th:with="start = ${pagination.startPage}, end = ${pagination.endPage}"
+			    		th:each="pageButton : ${#numbers.sequence(start, end)}">
+			    		<a class="page-link" th:href="@{/board/ssr(page=${pageButton}, pageSize=${pageSize})}" th:text=${pageButton}></a>
+			    </li>
+		    </th:block>
+		    
+		    <li class="page-item">
+		      <a class="page-link" th:href="@{/board/ssr(page=${pagination.nextBlock}, pageSize=${pageSize})}" aria-label="Next"> <!--nextBlock은 다음 블럭의 시작 페이지 -->
+		        <span aria-hidden="true">다음</span>
+		      </a>
+		    </li>
+		    
+		    <li class="page-item">
+		      <a class="page-link" th:href="@{/board/ssr(page=${pagination.totalPageCnt}, pageSize=${pageSize})}" aria-label="Previous">
+		        <span aria-hidden="true">끝</span>
+		      </a>
+		    </li>
+		  </ul>
+		</nav>
 	</div>
 
-	<!--<form action="#">-->
+
 	<form>
 		<label for="lang">페이지당노출수</label>
-		<select name="languages" id="lang">
-			<option value="10">10</option>
-			<option value="20">20</option>
-			<option value="30">30</option>
+		<select name="languages" id="pageSize" onchange="chgPageSize()"> <!--onchange = chgPageSize() 값이 변경되면 chgPageSize가 실행됨.-->
+			<option value=10>10</option>
+			<option value=20>20</option>
+			<option value=30>30</option>
 		</select>
 	</form>
 
 </body>
 
 </html>
+
+<!--<th:block>: Thymeleaf에서 반복적인 HTML 코드를 생성하기 위해 사용, th:each 속성을 사용하여 반복적으로 페이지 번호 생성-->
+
+<!--th:with: start와 end 변수를 생성하여 페이지 번호 반복하는데 사용-->
+
+<!--th:href: 링크의 URL을 동적으로 생성.
+ ${...} 표현식을 사용하여 변수를 삽입하며, 클라이언트에서는 이 URL을 클릭하여 해당 페이지로 이동-->
+
+<!--th:text: 링크의 텍스트를 동적으로 설정합니다. ${...} 표현식을 사용하여 페이지 번호를 표시-->

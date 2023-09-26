@@ -1,10 +1,13 @@
 package com.intern.backend.backend.endpoint.spring.one;
 
-import com.intern.backend.backend.endpoint.spring.one.domain.User;
-import org.springframework.data.repository.query.Param;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
+
+import org.springframework.data.repository.query.Param;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.intern.backend.backend.endpoint.spring.one.domain.User;
 
 @RestController
 @RequestMapping("/test/user")
