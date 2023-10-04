@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>CSR PAGING</title>
+    <style>
+        .paging {
+            display: flex;
+            list-style: none;
+        }
+        .paging li {
+            margin-right: 10px;
+        }
+        .paging button.active {
+            background:blue;
+            color:#ffffff;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<h1>학생 게시판</h1>
+<table>
+    <thead>
+    <tr>
+        <th>번호</th>
+        <th>제목</th>
+        <th>내용</th>
+        <th>작성자</th>
+        <th>작성일시</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td >1</td>
+        <td >subject</td>
+        <td >contents</td>
+        <td >writer</td>
+        <td ></td>
+    </tr>
+    </tbody>
+</table>
+<div>
+    <select >
+        <option value="10" selected>30</option>
+        <option value="20">20</option>
+        <option value="30">30</option>
+    </select>
+</div>
+<div>
+    <ul class="paging">
+        <li>BigPrev</li>
+        <li>Prev</li>
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+        <li>Next</li>
+        <li>BigNext</li>
+    </ul>
+</div>
+
+<script>
+    const changePage = (e) => {
+        loadData(e.target.dataset.page);
+    }
+    const render = function(response) {
+        const tableBody = document.querySelector('table tbody');
+        let innerHtml = '';
+        response.items.forEach((item, index) => {
+            innerHtml += `<tr>`;
+            innerHtml += `<td >${(index + 1) + ((response.page -1) * response.perPage)}</td>`;
+            innerHtml += `<td >${item.subject}</td>`;
+            innerHtml += `<td >${item.contents}</td>`;
+            innerHtml += `<td >${item.writer}</td>`;
+            innerHtml += `<td >${item.registerTime}</td>`;
+            innerHtml += `</tr>`;
+        })
+        tableBody.innerHTML = innerHtml;
+
+        const paging = document.querySelector('.paging');
+        innerHtml = '';
+        for(let i = response.startPage; i <= response.endPage; i++){
+            innerHtml += '<li>';
+            innerHtml += `<button class="page" data-page="${i}">${i}</button>`;
+            innerHtml += '</li>';
+        }
+        paging.innerHTML = innerHtml;
+
+        document.querySelectorAll('.page').forEach(function(element){
+            element.addEventListener('click', changePage)
+        })
+    }
+    const loadData = async function(page){
+        let queryParam = ''
+        if ( page ){
+            queryParam = new URLSearchParams({
+                page: page,
+            })
+        }
+
+        const response1 = await fetch('/api/board/search?' + queryParam);
+        const response = await response1.json();
+        render(response)
+    }
+    loadData();
+</script>
+</body>
+</html>

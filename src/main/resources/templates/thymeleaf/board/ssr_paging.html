@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>SSR PAGING</title>
+    <style>
+        .paging {
+            display: flex;
+            list-style: none;
+        }
+        .paging li {
+            margin-right: 10px;
+        }
+        .paging button.active {
+            background:blue;
+            color:#ffffff;
+            font-weight: bold;
+        }
+    </style>
+
+</head>
+<body>
+
+<h1>학생 게시판</h1>
+<form name="searchForm" onsubmit="return false;">
+    <input type="text" name="name" th:value="${info.name}"/>
+    <input type="hidden" name="page" th:value="${info.page}"/>
+    <input type="hidden" name="perPage" th:value="${info.perPage}"/>
+</form>
+<table>
+    <thead>
+    <tr>
+        <th>번호</th>
+        <th>제목</th>
+        <th>내용</th>
+        <th>작성자</th>
+        <th>작성일시</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${items == null or items.size == 0}">
+        <td colspan="5">조건에 맞는 데이터가 없습니다.</td>
+    </tr>
+    <tr th:if="${items != null and items.size > 0}" th:each="item, itemStat : ${items}">
+        <td th:text="${itemStat.count + ((info.page -1) * info.perPage)}"></td>
+        <td th:text="${item.subject}"></td>
+        <td th:text="${item.contents}"></td>
+        <td th:text="${item.writer}"></td>
+        <td th:text="${#dates.format(item.registerTime, 'yyyy-MM-dd hh:mm')}"></td>
+    </tr>
+    </tbody>
+</table>
+<div>
+    <select id="per-page">
+        <option value="10" th:selected="${info.perPage == 10}">10</option>
+        <option value="20" th:selected="${info.perPage == 20}">20</option>
+        <option value="30" th:selected="${info.perPage == 30}">30</option>
+    </select>
+</div>
+<div>
+    <ul class="paging">
+        <li><button class="page" th:attr="data-page=${info.page - info.perPaging}" th:disabled="${!info.bigPrev}">BigPrev</button></li>
+        <li><button class="page" th:attr="data-page=${info.page - 1}" th:disabled="${!info.prev}">Prev</button></li>
+        <li  th:class="page" th:each="num : ${#numbers.sequence(info.startPage,info.endPage)}"><button th:class="${numStat.current == info.page} ? 'active' : ''"  th:attr="data-page=${numStat.current}" th:text="${numStat.current}"></button></li>
+        <li><button class="page" th:attr="data-page=${info.page + 1}"  th:disabled="${!info.next}">Next</button></li>
+        <li><button class="page" th:attr="data-page=${info.page + info.perPaging}"  th:disabled="${!info.bigNext}">BigNext</button></li>
+    </ul>
+</div>
+
+<script>
+    const form = document.searchForm;
+    // per page 변경 이벤트 함수
+    document.querySelector('#per-page').addEventListener('change', function(e){
+        form.perPage.value = e.target.value;
+        form.page.value = 1;
+        form.submit();
+    })
+
+    const changePage = function(e){
+        form.page.value = e.target.dataset.page;
+        form.submit();
+    }
+    document.querySelectorAll('.page').forEach(function(element){
+        element.addEventListener('click', changePage)
+    })
+
+    document.querySelector('[name="name"]').addEventListener('keydown', function(event){
+        if (event.keyCode === 13) {
+            event.preventDefault();
+            form.page.value=1;
+            form.submit();
+        }
+    })
+</script>
+</body>
+</html>
