@@ -21,7 +21,7 @@ public class InheritanceMain { // coffee와 tea를 만드는 과정
 
 		System.out.println("==================================");
 
-		System.out.println("자식클래스 메서드 호출 - - tea");
+		System.out.println("자식클래스 메서드 호출 - tea");
 		tea.TeaMenu(); // 자기 자신 즉, tea클래스의 메서드를 직접 호출.
 
 	}

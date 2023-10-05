@@ -16,11 +16,15 @@ public class PolymorphismMain {
 //		CafeDrink cafeDrink = new CafeDrink();
 //		cafeDrink.kind();
 		coffee.kind();
+		coffee.make();
+		coffee.useMachinery();
 
 
 		
 //		cafeDrink.kind();
 		tea.kind();
+		tea.make();
+		tea.useMachinery();
 
 	}
 }
