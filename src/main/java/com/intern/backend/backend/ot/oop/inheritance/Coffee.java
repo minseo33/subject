@@ -1,15 +1,23 @@
 package com.intern.backend.backend.ot.oop.inheritance;
 
-class Coffee extends Cafe { //Coffee 클래스 (Cafe 클래스를 상속받는다)
-
-	@Override
-	public void make() { //상위 클래스의 특성을 하위 클래스에서 재사용(make)
-		System.out.println("커피를 제조합니다.");
+public class Coffee extends CafeDrink{ //CafeDrink의 하위 클래스 //extends를 사용하여 상속받음
+	
+	private int sugarLevel;
+	private String size;
+	private Boolean hotCold;
+	
+	public Coffee(String name, int price, int sugarLevel, String size, Boolean hotCold) {
+		super.name = name; //CafeDrink의 name //super()를 통해 부모클래스 객체에 할당
+		super.price = price; //CafeDrink의 price
+		this.sugarLevel = sugarLevel;
+		this.size = size;
+		this.hotCold = hotCold; //뜨거움유무
 	}
-
-	public void useCoffeeMachine() { //cafe 클래스에 없는 메서드 추가 생성 //자식클래스(coffee)에서만 사용가능
-		System.out.println("커피 머신을 사용합니다.");
+	
+	public void CoffeeMenu() {
+		System.out.println("설탕농도 : " + sugarLevel); //생성자로 셋팅된 필드값들이 출력
+		System.out.println("사이즈 : " + size);
+		System.out.println("뜨거움유무 : " + hotCold);
 	}
+	
 }
-
-
