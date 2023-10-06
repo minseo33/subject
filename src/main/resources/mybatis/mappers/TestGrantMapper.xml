@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- student mapper -->
+
+<mapper namespace="com.intern.backend.backend.endpoint.api.student.domain.repository.TestGrantMapper">
+
+
+    <!--그랜트 조회-->
+    <select id="selectGrants"
+            resultType="com.intern.backend.backend.endpoint.api.student.endpoint.support.GrantDTO$SearchRes">
+        SELECT SEQ , NAME
+        FROM TEST_GRANT
+    </select>
+    <insert id="saveGrant" parameterType="com.intern.backend.backend.endpoint.api.student.endpoint.support.GrantDTO$SaveReq">
+        <selectKey keyProperty="seq" resultType="Long" order="BEFORE">
+            SELECT TEST_GRANT_SEQ.nextval AS SEQ FROM dual
+        </selectKey>
+        INSERT INTO TEST_GRANT(SEQ, NAME)VALUES (#{seq}, #{name})
+    </insert>
+</mapper>
+
+
+
+
+
+

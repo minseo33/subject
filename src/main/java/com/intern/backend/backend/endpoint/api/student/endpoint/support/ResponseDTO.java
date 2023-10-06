@@ -1,6 +1,7 @@
 package com.intern.backend.backend.endpoint.api.student.endpoint.support;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,8 +11,9 @@ import java.util.List;
  * @param <T>
  */
 @Getter
+@NoArgsConstructor
 public class ResponseDTO<T> {
-    private boolean status;// 응답상테
+    private boolean status = true;// 응답상테
     private String message  = "success"; // 응답 메세지
 
 
@@ -28,8 +30,6 @@ public class ResponseDTO<T> {
     private T data;
 
 
-    public ResponseDTO() {
-    }
     /**
      * 목록 조회 경우
      * @param list
