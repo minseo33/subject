@@ -8,25 +8,19 @@ spring:
     # 프로덕션 환경에서는 캐시를 활성화하는 것이 권장
     cache: false
 
-  # H2 Database 설정
+  # Oracle Database 설정
   datasource:
-    driver-class-name: org.h2.Driver
-    url: 'jdbc:h2:mem:test'   # H2 DB 연결 주소 (In-Memory Mode)
-    #url: 'jdbc:h2:~/test'    # H2 DB 연결 주소 (Embedded Mode)
-    username: username        # H2 DB 접속 ID (사용자 지정)
-    password: password        # H2 DB 접속 PW (사용자 지정)
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    url: 'jdbc:oracle:thin:@inhouse-oracle.cma7qwydy0o7.ap-northeast-2.rds.amazonaws.com/FATCA'
+    username: #본인 db 계정
+    password: #본인 db password
 
-  # H2 Console 설정
-  h2:
-    console: # H2 DB를 웹에서 관리할 수 있는 기능
-      enabled: true           # H2 Console 사용 여부
-      path: /h2-console       # H2 Console 접속 주소
 
   # JPA 설정
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
-      ddl-auto: create        # DB 초기화 전략 (none, create, create-drop, update, validate)
+      ddl-auto: none        # DB 초기화 전략 (none, create, create-drop, update, validate)
 #     none 	테이블 생성 전략을 사용하지 않습니다. 보통 운영 환경에서는 해당 옵션이 권장됩니다.
 #     create 	기존 테이블을 삭제한 후 테이블을 재생성합니다.
 #     create-drop 	기존 테이블을 삭제한 후 테이블을 재생성하고, 애플리케이션 종료 시점에 테이블을 삭제합니다.
@@ -40,4 +34,9 @@ spring:
 # 파라미터 확인을 위한 trace
 logging:
   level:
-    org.hibernate.type: trace
+    root: INFO
+    org.springframework.web: INFO
+
+mybatis:
+  config-location: classpath:mybatis/config/mybatis-config.xml
+  mapper-locations: classpath:mybatis/mappers/*.xml
