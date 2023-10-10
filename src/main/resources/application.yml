@@ -10,10 +10,10 @@ spring:
 
   # Oracle Database 설정
   datasource:
-    driver-class-name: oracle.jdbc.driver.OracleDriver
-    url: 'jdbc:oracle:thin:@inhouse-oracle.cma7qwydy0o7.ap-northeast-2.rds.amazonaws.com/FATCA'
-    username: #본인 db 계정
-    password: #본인 db password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://database-intern.cma7qwydy0o7.ap-northeast-2.rds.amazonaws.com:3306/it_kth?rewriteBatchedStatements=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
+    username: it_kth
+    password: th_0705
 
 
   # JPA 설정

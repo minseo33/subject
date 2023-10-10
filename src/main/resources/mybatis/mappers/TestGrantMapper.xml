@@ -12,10 +12,7 @@
         FROM TEST_GRANT
     </select>
     <insert id="saveGrant" parameterType="com.intern.backend.backend.endpoint.api.student.endpoint.support.GrantDTO$SaveReq">
-        <selectKey keyProperty="seq" resultType="Long" order="BEFORE">
-            SELECT TEST_GRANT_SEQ.nextval AS SEQ FROM dual
-        </selectKey>
-        INSERT INTO TEST_GRANT(SEQ, NAME)VALUES (#{seq}, #{name})
+        INSERT INTO TEST_GRANT(NAME)VALUES (#{name})
     </insert>
 </mapper>
 
