@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+			outline: none;
+		}
+
+		ul,
+		li {
+			list-style: none;
+		}
+
+		a {
+			color: #000;
+			text-decoration: none;
+		}
+
+		/*main*/
+
+		main {
+			overflow: hidden;
+			padding-top: 20px;
+		}
+
+		/*main_left*/
+		#main_left {
+			float: left;
+			width: 750px;
+		}
+
+
+		.news_header {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-between;
+			align-items: center;
+			padding: 22px 0 16px 0;
+		}
+
+		.news_header h2 {
+			font-size: 14px;
+			font-weight: 700;
+		}
+
+		.news_header .news_btn_wrap {
+			width: 60px;
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-between;
+			align-items: center;
+		}
+
+		.news_lists {
+			overflow: hidden;
+			border: 1px solid #dae1e6;
+			margin: 10px;
+		}
+
+		.news_list {
+			position: relative;
+			text-align: center;
+			width: 30%;
+			height: 65px;
+			background-color: #fff;
+			float: left;
+			border-bottom: 1px solid #e4e8eb;
+			border-right: 1px solid #e4e8eb;
+			margin: 0 -30px;
+		}
+
+		.news_list:nth-child(6n) {
+			border-right: none;
+		}
+
+		.news_list:nth-child(19),
+		.news_list:nth-child(20),
+		.news_list:nth-child(21),
+		.news_list:nth-child(22),
+		.news_list:nth-child(23),
+		.news_list:nth-child(24) {
+			border-bottom: none;
+		}
+
+		.news_list img {
+			position: relative;
+			top: 50%;
+			transform: translateY(-50%);
+		}
+		
+		.login-button {
+            position: fixed; 
+            top: 100px; 
+            right: 250px; 
+            outline: black;
+        }
+
+	</style>
+
+
+<body>
+
+	<main role="main" class="container">
+		<div id="main_left">
+			<div id="banner_wrap"></div>
+
+			<div class="news_wrap">
+
+				<div id="news_wrap">
+					<ul th:each="data : ${ctg1GroupList}">
+						<li th:if="${data.category_uptab == null}">
+							<button th:text="뉴스스탠드" class="category-button"></button>
+						</li>
+						
+						<li th:if="${data.category_uptab != null && data.category_uptab == 'U1'}">
+							<button th:text="언론사편집"></button>
+						</li>
+						
+						<li th:if="${data.category_uptab != null && data.category_uptab == 'U2'}">
+							<button th:text="엔터"></button>
+							<ol th:each="data : ${ctg1SubList}">
+								<li th:if="${data.code == 'code003A' && data.category_uptab == 'U2'}">NOW</li>
+								<li th:if="${data.code == 'code003A' && data.category_uptab == 'U2'}">네이버 TV</li>
+								<li th:if="${data.code == 'code003A' && data.category_uptab == 'U2'}">시리즈온</li>
+								<li th:if="${data.code == 'code003A' && data.category_uptab == 'U2'}">VIBE</li>
+							</ol>
+						</li>
+						
+						<li th:if="${data.category_uptab != null && data.category_uptab == 'U3'}">
+							<button th:text="스포츠"></button>
+							<ol th:each="data : ${ctg1SubList}">
+								<li th:if="${data.code == 'code003A' && data.category_uptab == 'U2'}">야구</li>
+								<li th:if="${data.code == 'code003A' && data.category_uptab == 'U2'}">해외야구</li>
+								<li th:if="${data.code == 'code003A' && data.category_uptab == 'U2'}">축구</li>
+								<li th:if="${data.code == 'code003A' && data.category_uptab == 'U2'}">해외축구</li>
+								<li th:if="${data.code == 'code003A' && data.category_uptab == 'U2'}">농구</li>
+								<li th:if="${data.code == 'code003A' && data.category_uptab == 'U2'}">배구</li>
+								<li th:if="${data.code == 'code003A' && data.category_uptab == 'U2'}">N골프</li>
+								<li th:if="${data.code == 'code003A' && data.category_uptab == 'U2'}">일반</li>
+								<li th:if="${data.code == 'code003A' && data.category_uptab == 'U2'}">e스포츠</li>
+							</ol>
+						</li>
+						
+						<li th:if="${data.category_uptab != null && data.category_uptab == 'U4'}">
+							<button th:text="경제"></button>
+							<ol th:each="data : ${ctg1SubList}">
+								<li th:if="${data.code == 'code003A' && data.category_uptab == 'U2'}">국내증시</li>
+								<li th:if="${data.code == 'code003A' && data.category_uptab == 'U2'}">해외증시</li>
+								<li th:if="${data.code == 'code003A' && data.category_uptab == 'U2'}">시장지표</li>
+								<li th:if="${data.code == 'code003A' && data.category_uptab == 'U2'}">관심종목</li>
+							</ol>
+						</li>
+					</ul>
+
+
+					<table class="news-contents">
+						<thead>
+							<tr>
+								<th>번호</th>
+								<th>제목</th>
+								<th>내용</th>
+								<th>언론사</th>
+								<th>작성일시</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="datum, i: ${newsContents}"> <!-- 리스트 반복하면서 각 데이터 행으로 생성 -->
+								<td th:text="${i.count}"></td> <!-- 반복 상태 변수  번호 -->
+								<td th:text="${datum.medianews_title}"></td> <!-- 제목 -->
+								<td th:text="${datum.medianews_content}"></td> <!-- 내용 -->
+								<td th:text="${datum.mediaCmpny_name}"></td> <!-- 언론사 -->
+								<td th:text="${datum.medianews_date}"></td> <!-- 작성일시 -->
+							</tr>
+						</tbody>
+				</div>
+			</div>
+	</main>
+	
+	
+	<a class="login-button" href="/naver/login">로그인</a>
+
+</body>
+
+</html>

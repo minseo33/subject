@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- student mapper -->
+
+<mapper
+	namespace="com.intern.backend.backend.naver.dao.MainMapper">
+
+	<select id="selectMainCategory" resultType="com.intern.backend.backend.naver.dto.Category">
+		SELECT
+			B.CODE,
+			A.GROUP_CG,
+			B.CATEGORY_UPTAB,
+			B.CATEGORY_DOWNTAB
+		FROM
+			NC_ms_categoryGroup A
+			LEFT JOIN NC_ms_category B
+			ON A.GROUP_CG = B.GROUP_CG
+        WHERE 
+        	A.GROUP_CG = 'ctg1'
+	</select>
+	
+	<select id="selectNewsContents" resultType="com.intern.backend.backend.naver.dto.MediaNews">
+		SELECT 
+			A.MEDIACMPNY_ID, 
+			A.MEDIACMPNY_NAME, 
+			
+			B.MEDIANEWS_ID, 
+			B.MEDIANEWS_TITLE, 
+			B.MEDIANEWS_CONTENT, 
+			B.MEDIANEWS_DATE, 
+			
+			B.CATEGORY_UPTAB
+		FROM 
+			NC_ms_mediaCmpny A 
+			LEFT JOIN NC_ms_medianews B
+		ON A.MEDIACMPNY_ID = B.MEDIACMPNY_ID
+	</select>
+	
+	<select id="selectUserInfo" parameterType="java.util.Map" resultType="com.intern.backend.backend.naver.dto.Member">
+    select 
+      user_id, 
+      user_pwd, 
+      user_name, 
+      user_mail, 
+      pwd_errornum, 
+      user_lock
+   from    
+      NC_ms_member
+   where 
+       1=1	<!-- 항상 참으로 설정 -->
+      <if test="user_id != null and user_id != ''">
+            AND user_id = #{user_id}
+        </if>
+        <if test="user_pwd != null and user_pwd != ''">
+            AND user_pwd = #{user_pwd}
+        </if>
+   </select>
+</mapper>
+
+
+
+
+
+
