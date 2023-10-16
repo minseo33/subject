@@ -16,6 +16,8 @@ public interface MainMapper {
 	public List<MediaNews> selectNewsContents(); //언론사별 기사 조회 //데이터 가져옵니다
 	
 	public Member selectUserInfo(Map<String, String> map);
+	
+	
 
 
 }

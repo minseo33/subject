@@ -23,8 +23,8 @@ public class MainController {
 	
 	@GetMapping
 	public String main(Model model) {
-		//ctg1, ctg2, ctg3로 묶인 것들을 뽑기위한 방법
-		//현재 쿼리는 ctg1쪽 영역만 가져오도록 설정 
+//		ctg1, ctg2, ctg3로 묶인 것들을 뽑기위한 방법
+//		현재 쿼리는 ctg1쪽 영역만 가져오도록 설정 
 		List<Category> categoryList = mainService.selectMainCategory(); //selectMainCategory데이터를 가져옵니다.
 		
 		List<Category> ctg1GroupList = categoryList.stream()

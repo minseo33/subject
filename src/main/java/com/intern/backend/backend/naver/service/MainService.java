@@ -18,16 +18,21 @@ public class MainService {
 	
 	private final MainMapper mainMapper;
 
-	public List<Category> selectMainCategory() {
+	public List<Category> selectMainCategory() { //카테고리 조회
 		return mainMapper.selectMainCategory();
 	}
 	
-	public List<MediaNews> selectNewsContents() {
+	public List<MediaNews> selectNewsContents() { //언론사별 기사 조회
 		return mainMapper.selectNewsContents();
 	}
 	
 	public Member selectUserInfo(Map<String, String> map) {
 		return mainMapper.selectUserInfo(map);
+	}
+
+	public void updateMember(Member member) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 

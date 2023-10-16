@@ -13,4 +13,7 @@ public class Member {
 	private String user_mail;
 	private int    pwd_errornum;
 	private String user_lock;
+	public void setAccountLocked(boolean b) {
+
+	}
 }

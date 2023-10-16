@@ -26,6 +26,12 @@ public class LoginController {
 	public String login() {
 		return "naver/login"; // login.html을 반환합니다.
 	}
+	
+//	@GetMapping
+//	public String login(Model model) {
+//		model.addAttribute("errorMessage", ""); //오류 메시지를 초기화합니다.
+//		return "naver/login"; // login.html을 반환합니다.
+//	}
 
 	@PostMapping("/doLogin")
 	@ResponseBody
@@ -48,7 +54,7 @@ public class LoginController {
 
 			int failCount = member.getPwd_errornum(); // 인증 실패 횟수
 
-			if (failCount < 3) {
+			if (failCount < 4) {
 				// 파라미터에 이제 받은 아이디와 비밀번호를 넘겨서 맞는 정보가 있는지 확인
 				paramMap1.put("user_pwd", loginData.get("user_pwd").toString());
 
@@ -64,6 +70,8 @@ public class LoginController {
 				}
 			} else {
 				response.put("message", "계정을 사용할 수 없습니다. 관리자에게 문의하세요.");
+				member.setAccountLocked(true);
+				mainService.updateMember(member);
 			}
 		}
 
