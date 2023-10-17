@@ -1,0 +1,98 @@
+1. Gradle 데이터 소스 설정
+	- application.properties에 DB 정보를 선언해 두고, 설정(Configuration)파일에서 참조하는 방법
+	- 설정(Configuration)파일에서 DB정보를 직접 입력하는 방법
+	
+	- @Configuration
+		- 스프링은 @Configuration이 선언된 클래스를 자바기반의 설정 파일로 인식.
+		- 레거시의 xml 설정 방식을 java클래스로 대체한것으로 생각
+		
+	- 스프링 컨테이너 : 사전적 의미 -> 무언가를 담는 용기 또는 그릇
+				 -> 빈(Bean)의 생성과 사용, 관계, 생명 주기 등을 관리한다.
+			Q. 빈(Bean)이란? 쉽게 말해 Java 객체
+			 			-> 클래스들이 서로에 대한 의존성이 높을 때(결합도가 높을 때),
+			 				컨테이너에서 빈을 주입받는 방법으로 클래스간의 의존성을 낮출 수 있다...?
+
+	- sqlSession
+		1. MyBatis 스프링 연동 모듈의 핵심이다..
+		2. 쓰레드에 안전하고, 여러 개의 DAO나 Mapper에서 공유할 수 있다.
+		3. 필요한 시점에 세션을 닫고, 커밋 또는 롤백하는 것을 포함한 세션의 생명주기를 관리한다....뭔소리지
+		
+	@Bean //(name = "abc") -> name 속성을 선언하면 메서드명으로는 빈(Bean)을 주입받을 수 없다.
+	public SqlSessionFactory SqlSessionFactory() throws Exception{
+		SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBena()
+		...
+	}
+	
+	@Test
+	public void teatByApplicationContext() {
+		try{
+			syso(context.getBean(name:"abc"));
+		}
+	}
+	
+-------------------------------------------------------------------------------------------------
+
+	- AUTO_INCREMENT → 자동증가 할 때 사용
+	- CURRENT_TIMESTAMP() → 생성 시간을 자동으로 기록해두고 싶을때 사용
+    
+    	→ CURRENT_TIMESTAMP, NOW() 모두 같은 것
+    
+	- SHOW TABLES : 모든 테이블 조회(테이블명)
+	- SHOW FULL COULMNS FROM 테이블명 : 테이블에 포함된 모든 칼럼 조
+	
+--------------------------------------------------------------------------------------------------
+
+Body에 담기는 데이터 형식 => JSON(JavaScript Object Notation)
+
+- "웹 서비스"란? 컴퓨터와 컴퓨터 간의 상호 작용(데이터 흐름)을 위한 시스템
+- "RESTful"란? 
+	- REST의 요소 3가지 : 자원(URL), 행위(HTTP Method), 표현(Representation)
+
+@RequestBody : 비동기 통신에서 쓰이는 Body 안의 데이터(JSON객체)를 자바 객체(VO)로 변환해주는 어노테이션.
+@ResponseBody : 자바 객체(vo)를 데이터(JSON객체)로 바꿔 Body 안에 넣어주는 어노테이션.
+
+---------------------------------------------------------------------------------------------------
+
+@Controller & @RestController 둘 다 Spring에서 Controller를 지정해주기 위한 어노테이션.
+
+@Controller - Spring MVC의 controller -> 주로 View를 반환하기 위해 사용 but. Data를 반환해야 하는 경우도 있지요
+										-> Data를 반환하기 위해 @ResponseBody 어노테이션 활용. (JSON 형태의 데이터)
+										
+@Controller
+@RequiredArgsConstructor
+public class TestController {
+ 
+	private final MemberService memberService;
+	
+    @GetMapping("api/board/member")
+    public @ResponseBody ResponseEntity<Member> findMember(@RequestParam("id") String id) { 
+    					// findMember()는 Member 객체를 ResponseEntity로 감싸서 반환
+    					// Member를 JSON을 반환하기 위해 @ResponseBody
+        return ResponseEntity.ok(memberService.findMember(member));}}
+										
+@RestController - RESTful 웹 서비스의 Contorller => Restful Web Service에서 사용되는 컨트롤러 어노테이션
+												-> @Controller + @ResponseBody가 합쳐진 형태로 JSON 형태의 객체 데이터 반환
+			
+@RestController
+@RequiredArgsConstructor
+public class TestController {
+ 
+	private final MemberService memberService;
+    
+    @GetMapping("api/board/member")
+    public Member findMember(@RequestParam("id") String id) {
+    	return memberService.findMember(member);
+    }
+	
+    @GetMapping("api/board/member")
+    public ResponseEntity<Member> findMemberResponseEntity(@RequestParam("id") String id) {
+        
+        return ResponseEntity.ok(memberService.findMember(member));
+    }
+}									
+
+<<<<<<<<<<<<<<<<<<<<주요 차이점>>>>>>>>>>>>>>>>>>>>
+1. HTTP ResponseBody가 생성되는 방식(단, JSON 형태의 객체 데이터를 반환하는 사실은 같어)
+2. @Controller + @ResponseBody = @RestController
+
+
